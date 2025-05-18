@@ -106,17 +106,42 @@
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 <main class="form-signin w-100 m-auto">
-    <a href="{{ route('createAccount')}}">Create account</a>
-    <a href="{{ route('getBalance')}}">Check balance</a>
-    <a href="{{ route('subtractValue')}}">Subtract value</a>
-    <a href="{{ route('addValue')}}">Add value</a>
-    <a href="{{ route('transferValue')}}">Transfer value</a>
-
-    @if (session()->has('mensagem'))
+    <a href="{{route('formLogin')}}"> Voltar </a>
+    <form action="{{route('transferValueAccount')}}" method="post" enctype="application/x-www-form-urlencoded">
+        @csrf
+        <h1 class="h3 mb-3 fw-normal">Seja bem vindo</h1>
+        <div class="form-floating">
+            <input type="number" min='0' step='1' class="form-control" id="floatingInput" name="conta" placeholder="Numero da conta" required>
+            <label for="floatingInput">Número da conta a transferir valor</label>
+        </div>
+        <div class="form-floating">
+            <input type="number" min='0' step='1' class="form-control" id="floatingInput" name="conta2" placeholder="Numero da conta" required>
+            <label for="floatingInput">Número da conta a receber valor</label>
+        </div>
+        <div class="form-floating">
+            <input type="number" min='0' step='0.01' class="form-control" id="floatingInput" name="valor" placeholder="XX.XX" required>
+            <label for="floatingInput">Valor a ser transferido</label>
+        </div>
+        
+        <button class="btn btn-primary w-100 py-2" type="submit">Checar Saldo</button>
+        <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2025</p>
+        @if (session()->has('mensagem'))
             <p class="text-center">
                 <b>{{ session('mensagem') }}</b>
             </p>
-    @endif
+        @endif
+        @if (session()->has('saldo'))
+            <p class="text-center">
+                <b>O saldo é de {{ session('saldo') }}</b>
+            </p>
+        @endif
+        @if (session()->has('saldo2'))
+            <p class="text-center">
+                <b>O saldo2 é de {{ session('saldo2') }}</b>
+            </p>
+        @endif
+
+    </form>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>

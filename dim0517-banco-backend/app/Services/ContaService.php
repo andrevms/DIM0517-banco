@@ -61,4 +61,20 @@ class ContaService
         DB::table('contas')->where('conta', $conta)->update(['saldo' => $contaExistente->saldo]);
         return response()->json(['mensagem' => 'Valor adicionado com sucesso', 'conta' => $contaExistente], 200);
     }
+
+    public function transferValue(int $conta, int $conta2, float $valor)
+    {
+        $contaExistente = $this->contaModel->where('conta', $conta)->first();
+        $conta2Existente = $this->contaModel->where('conta', $conta2)->first();
+        if (!$contaExistente || !$conta2Existente) {
+            return response()->json(['mensagem' => 'Conta não encontrada'], 400);
+        }
+
+        $contaExistente->saldo -= $valor;
+        $conta2Existente->saldo += $valor;
+
+        DB::table('contas')->where('conta', $conta)->update(['saldo' => $contaExistente->saldo]);
+        DB::table('contas')->where('conta', $conta2)->update(['saldo' => $conta2Existente->saldo]);
+        return response()->json(['mensagem' => 'Valor transferido com sucesso', 'conta' => $contaExistente, 'conta2' => $conta2Existente], 200);
+    }
 }

@@ -66,4 +66,16 @@ class ContaController extends Controller
             return redirect()->back()->with(['mensagem' => 'Conta não encontrada']);
         }
     }
+
+    public function transferValue(Request $request)
+    {
+        $aux = $this->contaService->transferValue($request->conta, $request->conta2, $request->valor);
+
+        if($aux->status() == 200){
+            return redirect()->back()->with(['mensagem' => 'Valor adicionado com sucesso', 'saldo' => $aux->original['conta']->saldo, 'saldo2' => $aux->original['conta2']->saldo]);
+        }
+        if($aux->status() == 400) {
+            return redirect()->back()->with(['mensagem' => 'Conta não encontrada']);
+        }
+    }
 }

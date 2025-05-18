@@ -26,3 +26,8 @@ Route::get('/addValue', function () {
 })->name('addValue');
 route::post('/addValue', [ContaController::class, 'addValue'])->name('addValueAccount');
 
+Route::get('/transferValue', function () {
+    return view('transferValue');
+})->name('transferValue');
+route::post('/transferValue', [ContaController::class, 'transferValue'])->name('transferValueAccount');
+
