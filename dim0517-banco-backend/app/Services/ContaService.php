@@ -27,4 +27,12 @@ class ContaService
         return response()->json(['message' => 'Conta criada com sucesso'], 200);
     }
     
+    public function getConta(int $conta)
+    {
+        $contaExistente = $this->contaModel->where('conta', $conta)->first();
+        if (!$contaExistente) {
+            return response()->json(['mensagem' => 'Conta não encontrada'], 400);
+        }
+        return response()->json(['mensagem' => 'Conta encontrada', 'conta' => $contaExistente], 200);
+    }
 }

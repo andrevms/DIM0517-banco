@@ -29,4 +29,17 @@ class ContaController extends Controller
 
         return redirect()->back()->with(['mensagem' => 'Erro ao criar conta']);
     }
+
+    public function getBalance(Request $request)
+    {
+        $aux = $this->contaService->getConta($request->conta);
+
+        if($aux->status() == 200){
+            return redirect()->back()->with(['saldo' => $aux->original['conta']->saldo]);
+        }
+        if($aux->status() == 400) {
+            return redirect()->back()->with(['mensagem' => 'Conta não encontrada']);
+        }
+        return redirect()->back()->with(['mensagem' => 'Erro ao buscar conta']);
+    }
 }
