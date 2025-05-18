@@ -42,4 +42,15 @@ class ContaController extends Controller
         }
         return redirect()->back()->with(['mensagem' => 'Erro ao buscar conta']);
     }
+
+    public function addValue(Request $request)
+    {
+        $aux = $this->contaService->addValue($request->conta, $request->valor);
+        if($aux->status() == 200){
+            return redirect()->back()->with(['mensagem' => 'Valor adicionado com sucesso', 'saldo' => $aux->original['conta']->saldo]);
+        }
+        if($aux->status() == 400) {
+            return redirect()->back()->with(['mensagem' => 'Conta não encontrada']);
+        }
+    }
 }
