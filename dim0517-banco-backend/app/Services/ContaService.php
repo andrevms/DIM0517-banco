@@ -12,16 +12,24 @@ class ContaService
         $this->contaModel = $contaModel;
     }
 
-    public function criarConta(int $conta)
+    public function criarConta(int $conta, string $tipo)
     {
+        if ($tipo != 'bonus' && $tipo != 'tradicional') {
+            return response()->json(['message' => 'Tipo de conta inválido'], 400);
+        }
+
         $contaExistente = $this->contaModel->where('conta', $conta)->first();
         if ($contaExistente) {
             return response()->json(['message' => 'Conta já existente'], 400);
         }
 
+        $pontos = ($tipo == 'bonus') ? 10 : 0;
+
         DB::table('contas')->insert([
             'conta' => $conta,
             'saldo' => 0,
+            'tipo' => $tipo,
+            'pontos' => $pontos,
         ]);
         
         return response()->json(['message' => 'Conta criada com sucesso'], 200);

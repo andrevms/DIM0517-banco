@@ -17,14 +17,14 @@ class ContaController extends Controller
 
     public function store(Request $request)
     {
-        $aux = $this->contaService->criarConta($request->conta);
+        $aux = $this->contaService->criarConta($request->conta, $request->tipo);
         
         if($aux->status() == 200){
             return redirect()->route('formLogin')->with(['mensagem' => 'Conta criada com sucesso']);
         }
         
         if($aux->status() == 400) {
-            return redirect()->back()->with(['mensagem' => 'Conta já existe']);
+            return redirect()->back()->with(['mensagem' => $aux->original["mensagem"]]);
         }
 
         return redirect()->back()->with(['mensagem' => 'Erro ao criar conta']);

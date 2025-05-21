@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('conta');
             $table->decimal('saldo', 15,2);
+            $table->string('tipo');
+            $table->integer('pontos');
         });
     }
 
