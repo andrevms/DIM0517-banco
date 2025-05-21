@@ -51,7 +51,7 @@ class ContaController extends Controller
             return redirect()->back()->with(['mensagem' => 'Valor removido com sucesso', 'saldo' => $aux->original['conta']->saldo]);
         }
         if($aux->status() == 400) {
-            return redirect()->back()->with(['mensagem' => 'Conta não encontrada']);
+            return redirect()->back()->with(['mensagem' => $aux->original["mensagem"]]);
         }
     }
   
@@ -75,7 +75,7 @@ class ContaController extends Controller
             return redirect()->back()->with(['mensagem' => 'Valor adicionado com sucesso', 'saldo' => $aux->original['conta']->saldo, 'saldo2' => $aux->original['conta2']->saldo]);
         }
         if($aux->status() == 400) {
-            return redirect()->back()->with(['mensagem' => 'Conta não encontrada']);
+            return redirect()->back()->with(['mensagem' => $aux->original["mensagem"]]);
         }
     }
 }
