@@ -45,6 +45,10 @@ class ContaService
         }
         $contaExistente->saldo -= $valor;
 
+        if ($contaExistente->saldo < 0) {
+            return response()->json(['mensagem' => 'Saldo insuficiente'], 400);
+        }
+
         DB::table('contas')->where('conta', $conta)->update(['saldo' => $contaExistente->saldo]);
         return response()->json(['mensagem' => 'Valor adicionado com sucesso', 'conta' => $contaExistente], 200);
     }
@@ -71,6 +75,11 @@ class ContaService
         }
 
         $contaExistente->saldo -= $valor;
+
+        if ($contaExistente->saldo < 0) {
+            return response()->json(['mensagem' => 'Saldo insuficiente'], 400);
+        }
+
         $conta2Existente->saldo += $valor;
 
         DB::table('contas')->where('conta', $conta)->update(['saldo' => $contaExistente->saldo]);
