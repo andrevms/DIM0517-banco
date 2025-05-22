@@ -70,6 +70,10 @@ class ContaService
 
         $contaExistente->saldo += $valor;
 
+        if ($contaExistente->tipo == 'bonus') {
+            $contaExistente->pontos += intdiv($valor, 100);
+        }
+
         DB::table('contas')->where('conta', $conta)->update(['saldo' => $contaExistente->saldo]);
         return response()->json(['mensagem' => 'Valor adicionado com sucesso', 'conta' => $contaExistente], 200);
     }
@@ -89,8 +93,15 @@ class ContaService
         }
 
         $conta2Existente->saldo += $valor;
+        $updateData = ['saldo' => $conta2Existente->saldo];
 
-        DB::table('contas')->where('conta', $conta)->update(['saldo' => $contaExistente->saldo]);
+        if ($conta2Existente->tipo == 'bonus') {
+            $conta2Existente->pontos += intdiv($valor, 200);
+            $updateData['pontos'] = $conta2Existente->pontos;
+        }
+
+
+        DB::table('contas')->where('conta', $conta)->update($updateData);
         DB::table('contas')->where('conta', $conta2)->update(['saldo' => $conta2Existente->saldo]);
         return response()->json(['mensagem' => 'Valor transferido com sucesso', 'conta' => $contaExistente, 'conta2' => $conta2Existente], 200);
     }
