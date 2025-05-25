@@ -51,6 +51,11 @@ class ContaService
         if (!$contaExistente) {
             return response()->json(['mensagem' => 'Conta não encontrada'], 400);
         }
+
+        if ($valor <= 0) {
+            return response()->json(['mensagem' => 'Valor inválido'], 400);
+        }
+        
         $contaExistente->saldo -= $valor;
 
         if ($contaExistente->saldo < 0) {
@@ -66,6 +71,10 @@ class ContaService
         $contaExistente = $this->contaModel->where('conta', $conta)->first();
         if (!$contaExistente) {
             return response()->json(['mensagem' => 'Conta não encontrada'], 400);
+        }
+
+        if ($valor <= 0) {
+            return response()->json(['mensagem' => 'Valor inválido'], 400);
         }
 
         $contaExistente->saldo += $valor;
@@ -84,6 +93,10 @@ class ContaService
         $conta2Existente = $this->contaModel->where('conta', $conta2)->first();
         if (!$contaExistente || !$conta2Existente) {
             return response()->json(['mensagem' => 'Conta não encontrada'], 400);
+        }
+
+        if ($valor <= 0) {
+            return response()->json(['mensagem' => 'Valor inválido'], 400);
         }
 
         $contaExistente->saldo -= $valor;
