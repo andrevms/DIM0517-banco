@@ -14,13 +14,13 @@ class ContaService
 
     public function criarConta(int $conta, string $tipo)
     {
-        if ($tipo != 'bonus' && $tipo != 'tradicional') {
-            return response()->json(['message' => 'Tipo de conta inválido'], 400);
+        if ($tipo != 'bonus' && $tipo != 'tradicional' && $tipo!= 'poupanca') {
+            return response()->json(['mensagem' => 'Tipo de conta inválido'], 400);
         }
 
         $contaExistente = $this->contaModel->where('conta', $conta)->first();
         if ($contaExistente) {
-            return response()->json(['message' => 'Conta já existente'], 400);
+            return response()->json(['mensagem' => 'Conta já existente'], 400);
         }
 
         $pontos = ($tipo == 'bonus') ? 10 : 0;
@@ -32,7 +32,7 @@ class ContaService
             'pontos' => $pontos,
         ]);
         
-        return response()->json(['message' => 'Conta criada com sucesso'], 200);
+        return response()->json(['mensagem' => 'Conta criada com sucesso'], 200);
     }
     
     public function getConta(int $conta)
@@ -104,5 +104,23 @@ class ContaService
         DB::table('contas')->where('conta', $conta)->update($updateData);
         DB::table('contas')->where('conta', $conta2)->update(['saldo' => $conta2Existente->saldo]);
         return response()->json(['mensagem' => 'Valor transferido com sucesso', 'conta' => $contaExistente, 'conta2' => $conta2Existente], 200);
+    }
+
+    public function renderJuros(float $valor) {
+
+        try {
+            if($valor <= 0) {
+                return response()->json(['mensagem' => 'Valor inválido'], 400);
+            }
+
+            DB::table('contas')
+            ->where('tipo', 'poupanca')
+            ->update([
+                'saldo' => DB::raw('saldo + saldo * ' . ($valor / 100))
+            ]);
+            return response()->json(['mensagem' => 'Juros renderizados com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['mensagem' => 'Valor inválido'], 400);
+        }
     }
 }

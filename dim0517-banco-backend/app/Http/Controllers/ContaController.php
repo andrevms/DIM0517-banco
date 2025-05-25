@@ -78,4 +78,14 @@ class ContaController extends Controller
             return redirect()->back()->with(['mensagem' => $aux->original["mensagem"]]);
         }
     }
+
+    public function renderJuros(Request $request) {
+        $aux = $this->contaService->renderJuros($request->taxaPercentual);
+        if($aux->status() == 200){
+            return redirect()->back()->with(['mensagem' => 'Juros renderizados com sucesso']);
+        }
+        if($aux->status() == 400) {
+            return redirect()->back()->with(['mensagem' => $aux->original["mensagem"]]);
+        }
+    }
 }
