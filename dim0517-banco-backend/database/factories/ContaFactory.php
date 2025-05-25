@@ -12,7 +12,7 @@ class ContaFactory extends Factory
         return [
             'conta' => fake()->unique()->randomNumber(5),
             'saldo' => number_format(fake()->randomFloat(2, -1000, 1000), 2, '.', ''),
-            'tipo' => fake()->randomElement(['bonus', 'tradicional']),
+            'tipo' => fake()->randomElement(['bonus', 'tradicional', 'poupanca']),
             'pontos' => fake()->randomNumber(2),
         ];
     }

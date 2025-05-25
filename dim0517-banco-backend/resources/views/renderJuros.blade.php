@@ -107,29 +107,24 @@
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 <main class="form-signin w-100 m-auto">
     <a href="{{route('formLogin')}}"> Voltar </a>
-    <form action="{{route('store')}}" method="post" enctype="application/x-www-form-urlencoded">
+    <form action="{{route('renderJurosAccount')}}" method="post" enctype="application/x-www-form-urlencoded">
         @csrf
         <h1 class="h3 mb-3 fw-normal">Seja bem vindo</h1>
-        <div>
-            <label for="conta">Nova conta</label>
-            <input type="number" min='0' step='1' class="form-control" id="conta" name="conta" placeholder="Numero da conta" required>
+        <div class="form-floating">
+            <input type="number" min='0' step='0.01' class="form-control" id="floatingInput" name="taxaPercentual" placeholder="XX.XX" required>
+            <label for="floatingInput">Taxa de rendimento em % </label>
         </div>
-        <hr>
-        <div>
-            <label for="floatingInput">Tipo da conta</label>
-            <select class="form-select" name="tipo" id="floatingSelect" aria-label="Floating label select example" required>
-                <option selected>Escolha o tipo</option>
-                <option value="bonus">Bonus</option>
-                <option value="tradicional">Tradicional</option>
-                <option value="poupanca">Poupança</option>
-            </select>
-        </div>
-        <hr>
-        <button class="btn btn-primary w-100 py-2" type="submit">Criar</button>
+        
+        <button class="btn btn-primary w-100 py-2" type="submit">Checar Saldo</button>
         <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2025</p>
         @if (session()->has('mensagem'))
             <p class="text-center">
                 <b>{{ session('mensagem') }}</b>
+            </p>
+        @endif
+        @if (session()->has('saldo'))
+            <p class="text-center">
+                <b>O saldo é de {{ session('saldo') }}</b>
             </p>
         @endif
 

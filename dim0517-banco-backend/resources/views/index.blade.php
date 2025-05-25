@@ -111,6 +111,7 @@
     <a href="{{ route('subtractValue')}}">Subtract value</a>
     <a href="{{ route('addValue')}}">Add value</a>
     <a href="{{ route('transferValue')}}">Transfer value</a>
+    <a href="{{ route('renderJuros')}}">Render juros</a>
 
     @if (session()->has('mensagem'))
             <p class="text-center">
