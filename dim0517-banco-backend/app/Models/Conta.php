@@ -10,6 +10,8 @@ class Conta extends Model
     protected $fillable = [
         'conta',
         'saldo',
+        'tipo',
+        'pontos'
     ];
 
     // Cast saldo as decimal with 2 decimal places

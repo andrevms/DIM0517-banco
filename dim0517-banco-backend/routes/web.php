@@ -31,3 +31,8 @@ Route::get('/transferValue', function () {
 })->name('transferValue');
 route::post('/transferValue', [ContaController::class, 'transferValue'])->name('transferValueAccount');
 
+Route::get('/renderJuros', function () {
+    return view('renderJuros');
+})->name('renderJuros');
+route::post('/renderJuros', [ContaController::class, 'renderJuros'])->name('renderJurosAccount');
+
